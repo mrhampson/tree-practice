@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -86,7 +85,7 @@ public class BTree<T extends Comparable<T>> {
   @SuppressWarnings("unchecked")
   public void rebalance() {
     List<T> orderedValues = toListOrdered();
-    root = rebalanceHelper(orderedValues, 0, orderedValues.size() - 1);
+    root = rebalanceHelper(orderedValues, 0, orderedValues.size());
   }
   
   private BTreeNode<T> rebalanceHelper(List<T> orderedValues, int startIndex, int endIndex) {
@@ -127,7 +126,9 @@ public class BTree<T extends Comparable<T>> {
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
     toString(root, stringBuilder, 1);
-    return stringBuilder.toString();
+    return Arrays.stream(stringBuilder.toString().split(System.lineSeparator()))
+      .sorted()
+      .collect(Collectors.joining(System.lineSeparator()));
   }
   
   private void toString(BTreeNode<T> node, StringBuilder stringBuilder, int level) {
