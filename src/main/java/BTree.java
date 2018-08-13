@@ -1,15 +1,6 @@
 /*
  * BTree.java
  * Created on Aug 12, 2018, 12:25 PM
- *
- * Copyright 2008-2018 LiveAction, Incorporated. All Rights Reserved.
- * 3500 W Bayshore Road, Palo Alto, California 94303, U.S.A.
- *
- * This software is the confidential and proprietary information
- * of LiveAction ("Confidential Information").
- * You shall not disclose such Confidential Information and shall use
- * it only in accordance with the terms of the license agreement
- * you entered into with LiveAction.
  */
 
 import java.util.ArrayList;
