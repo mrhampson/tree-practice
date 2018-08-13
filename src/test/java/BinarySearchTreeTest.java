@@ -1,18 +1,16 @@
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
 /**
  * @author Marshall Hampson
  */
-public class BTreeTest {
+public class BinarySearchTreeTest {
 
   @Test public void insert() {
-    BTree<Integer> btree = new BTree<>();
+    BinarySearchTree<Integer> btree = new BinarySearchTree<>();
     btree.insert(5);
     btree.insert(4);
     btree.insert(6);
@@ -22,7 +20,7 @@ public class BTreeTest {
   }
   
   @Test public void getValue() {
-    BTree<Integer> btree = new BTree<>();
+    BinarySearchTree<Integer> btree = new BinarySearchTree<>();
     btree.insert(5);
     btree.insert(4);
     btree.insert(6);
@@ -33,7 +31,7 @@ public class BTreeTest {
   }
   
   @Test public void toListOrdered() {
-    BTree<Integer> btree = new BTree<>();
+    BinarySearchTree<Integer> btree = new BinarySearchTree<>();
     btree.insert(5);
     btree.insert(4);
     btree.insert(6);
@@ -44,18 +42,18 @@ public class BTreeTest {
   }
   
   @Test public void rebalance() {
-    BTree<Integer> btree = make1to7BTree();
+    BinarySearchTree<Integer> btree = make1to7BTree();
     btree.rebalance();
     System.out.println(btree);
   }
   
   @Test public void toStringMethod() {
-    BTree<Integer> btree = make1to7BTree();
+    BinarySearchTree<Integer> btree = make1to7BTree();
     System.out.println(btree);
   }
   
-  private BTree<Integer> make1to7BTree() {
-    BTree<Integer> btree = new BTree<>();
+  private BinarySearchTree<Integer> make1to7BTree() {
+    BinarySearchTree<Integer> btree = new BinarySearchTree<>();
     for (int i = 1; i <= 7; i++) {
       btree.insert(i);
     }

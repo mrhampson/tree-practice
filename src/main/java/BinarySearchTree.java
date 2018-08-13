@@ -1,5 +1,5 @@
 /*
- * BTree.java
+ * BinarySearchTree.java
  * Created on Aug 12, 2018, 12:25 PM
  */
 
@@ -7,17 +7,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * @author Marshall Hampson
  */
-public class BTree<T extends Comparable<T>> {
-  private BTreeNode<T> root = null;
+public class BinarySearchTree<T extends Comparable<T>> {
+  private BinarySearchTreeNode<T> root = null;
   private int size = 0;
-  
+
+  /**
+   * Adds a value into the tree
+   * @param value the value
+   */
   public void insert(T value) {
-    BTreeNode<T> newNode = new BTreeNode<>(value);
+    Objects.requireNonNull(value);
+    BinarySearchTreeNode<T> newNode = new BinarySearchTreeNode<>(value);
     if (root == null) {
       root = newNode;
       size++;
@@ -27,7 +33,12 @@ public class BTree<T extends Comparable<T>> {
     }
   }
 
-  private void insertHelper(BTreeNode<T> currentNode, BTreeNode<T> newNode) {
+  /**
+   * Recursive function to insert a new node
+   * @param currentNode the current node
+   * @param newNode the new node to insert
+   */
+  private void insertHelper(BinarySearchTreeNode<T> currentNode, BinarySearchTreeNode<T> newNode) {
     boolean isLessThanOrEqualToCurrent = newNode.getValue().compareTo(currentNode.getValue()) <= 0;
     if (isLessThanOrEqualToCurrent) {
       if (currentNode.getLeft() != null) {
@@ -48,12 +59,23 @@ public class BTree<T extends Comparable<T>> {
       }
     }
   }
-  
+
+  /**
+   * Gets the value if it exists in the tree 
+   * @param value the value to find
+   * @return the value if it exists or null
+   */
   public T getValue(T value) {
     return getValueHelper(root, value);
   }
-  
-  private T getValueHelper(BTreeNode<T> currentNode, T value) {
+
+  /**
+   * Recursive function to get the value from the tree
+   * @param currentNode the current node 
+   * @param value the value to find
+   * @return the value if it exists or null
+   */
+  private T getValueHelper(BinarySearchTreeNode<T> currentNode, T value) {
     boolean isLessThanOrEqualToCurrent = value.compareTo(currentNode.getValue()) <= 0;
     if (isLessThanOrEqualToCurrent) {
       if (currentNode.getLeft() != null) {
@@ -72,36 +94,60 @@ public class BTree<T extends Comparable<T>> {
       }
     }
   }
-  
-  @SuppressWarnings("unchecked")
+
+  /**
+   * Rebalances the treee
+   */
   public void rebalance() {
     List<T> orderedValues = toListOrdered();
     root = rebalanceHelper(orderedValues, 0, orderedValues.size());
   }
-  
-  private BTreeNode<T> rebalanceHelper(List<T> orderedValues, int startIndex, int endIndex) {
+
+  /**
+   * Recursive function that rebalances the tree by reading all its values to an array,
+   * sorting it and then recursively building the tree 
+   * @param orderedValues the ordered values of the existing tree
+   * @param startIndex the starting index in the ordered values array
+   * @param endIndex the ending index in the ordered values array
+   * @return
+   */
+  private BinarySearchTreeNode<T> rebalanceHelper(List<T> orderedValues, int startIndex, int endIndex) {
     if (endIndex <= startIndex) {
       return null;
     }
     int middle = (endIndex - startIndex) / 2 + startIndex;
-    BTreeNode<T> newNode = new BTreeNode<>(orderedValues.get(middle));
+    BinarySearchTreeNode<T> newNode = new BinarySearchTreeNode<>(orderedValues.get(middle));
     newNode.setLeft(rebalanceHelper(orderedValues, startIndex, middle));
     newNode.setRight(rebalanceHelper(orderedValues, middle + 1, endIndex));
     return newNode;
   }
-  
+
+  /**
+   * Gets all values in an unordered list
+   * @return a list of all values in the tree
+   */
   public List<T> toListUnordered() {
     List<T> allValues = new ArrayList<>(size);
     toListUnordered(root,allValues);
     return allValues;
   }
-  
+
+  /**
+   * Gets all values in an ordered list
+   * @return a list of all values in the tree sorted
+   */
   public List<T> toListOrdered() {
     List<T> allValues = toListUnordered();
     Collections.sort(allValues);
     return allValues;
   }
-  private void toListUnordered(BTreeNode<T> currentNode, List<T> list) {
+
+  /**
+   * Recursive function to read all the values into a list
+   * @param currentNode the current node to add to the list 
+   * @param list the list to write the values into 
+   */
+  private void toListUnordered(BinarySearchTreeNode<T> currentNode, List<T> list) {
     if (currentNode != null && currentNode.getValue() != null) {
       list.add(currentNode.getValue());
       toListUnordered(currentNode.getRight(), list);
@@ -109,10 +155,15 @@ public class BTree<T extends Comparable<T>> {
     }
   }
 
+  /**
+   * The number of nodes in this tree
+   * @return the number of nodes in this tree
+   */
   public int getSize() {
     return size;
   }
   
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
@@ -121,8 +172,14 @@ public class BTree<T extends Comparable<T>> {
       .sorted()
       .collect(Collectors.joining(System.lineSeparator()));
   }
-  
-  private void toString(BTreeNode<T> node, StringBuilder stringBuilder, int level) {
+
+  /**
+   * Recursive function to write the values of the tree as a string
+   * @param node the current node to print
+   * @param stringBuilder the string builder to print into
+   * @param level the current level of the node
+   */
+  private void toString(BinarySearchTreeNode<T> node, StringBuilder stringBuilder, int level) {
     stringBuilder.append("level: ").append(level);
     stringBuilder.append(" value: ").append(node.getValue()).append(" ");
     stringBuilder.append(", leftVal: ").append(node.getLeft() != null ? node.getLeft().getValue() : "null");
