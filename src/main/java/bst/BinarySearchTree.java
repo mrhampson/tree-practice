@@ -1,5 +1,5 @@
-/*
- * BinarySearchTree.java
+package bst;/*
+ * bst.BinarySearchTree.java
  * Created on Aug 12, 2018, 12:25 PM
  */
 

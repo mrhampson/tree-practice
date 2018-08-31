@@ -1,3 +1,6 @@
+package bst;
+
+import bst.BinarySearchTree;
 import org.junit.Test;
 
 import java.util.Arrays;
